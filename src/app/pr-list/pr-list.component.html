@@ -1,1 +1,1 @@
-<app-pull-request-card *ngFor="let pr of prs" [pr] = pr></app-pull-request-card>      
+<app-pull-request-card *ngFor="let pr of prs" [pr] = pr [isSelected] = "pr === selectedPr" [class.selected]="pr === selectedPr" (click) = "onSelect(pr)"></app-pull-request-card>      

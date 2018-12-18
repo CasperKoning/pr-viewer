@@ -17,7 +17,11 @@ export class PrListComponent implements OnInit {
   }
 
   onSelect(pr: PullRequest): void {
-    this.selectedPr = pr;
+    if (this.selectedPr === pr) {
+      this.selectedPr = null;
+    } else {
+      this.selectedPr = pr;
+    }
   }
 
 }

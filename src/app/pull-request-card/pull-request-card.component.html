@@ -4,16 +4,13 @@
     <mat-card-title>{{pr.title}}</mat-card-title>
     <mat-card-subtitle>{{pr.repository.name}}</mat-card-subtitle>
   </mat-card-header>
-  Merging from {{pr.headBranch}} into {{pr.baseBranch}} with <br>
-  <ul>
-    <li>Commits: {{pr.nrCommits}}</li>
-    <li>Files Changed: {{pr.filesChanged}}</li>
-    <li>Additions: {{pr.additions}}</li>
-    <li>Deletions: {{pr.deletions}}</li>
-  </ul>
-  <!-- <mat-card-content>
-    <p>
-      Here's some content for the PR (maybe expand once the item is selected?)
-    </p>
-  </mat-card-content> -->
+  <mat-card-content *ngIf="isSelected">
+    <mat-list>
+      <mat-list-item>Commits: {{pr.nrCommits}}</mat-list-item>
+      <mat-list-item>Files Changed: {{pr.filesChanged}}</mat-list-item>
+      <mat-list-item>Additions: {{pr.additions}}</mat-list-item>
+      <mat-list-item>Deletions: {{pr.deletions}}</mat-list-item>
+    </mat-list>
+  </mat-card-content>
+  <mat-card-footer>{{pr.headBranch}} -> {{pr.baseBranch}}</mat-card-footer>
 </mat-card>

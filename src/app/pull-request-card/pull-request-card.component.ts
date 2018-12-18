@@ -9,6 +9,7 @@ import { PullRequest } from '../model/model';
 export class PullRequestCardComponent implements OnInit {
 
   @Input() pr: PullRequest;
+  @Input() isSelected: boolean;
 
   constructor() { }
 
