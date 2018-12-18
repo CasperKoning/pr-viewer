@@ -1,0 +1,13 @@
+.pull-request-card {
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+.pull-request-card-header-image {
+    background-size: cover;
+}
+
+.mat-card-image {
+    max-width: 200px;
+}
