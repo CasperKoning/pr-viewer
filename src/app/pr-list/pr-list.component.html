@@ -1,5 +1,5 @@
 <ul>
 <li *ngFor="let pr of prs" [class.selected]="pr === selectedPr" (click) = "onSelect(pr)">
-  <span class="pull-request">{{pr.id}} - {{pr.title}}</span>
+  <app-pull-request-card [pr] = pr></app-pull-request-card>
 </li>
 </ul>
