@@ -1,1 +1,23 @@
-<app-pull-request-card *ngFor="let pr of prs" [pr] = pr [isSelected] = "pr === selectedPr" [class.selected]="pr === selectedPr" (click) = "onSelect(pr)"></app-pull-request-card>      
+<mat-accordion multi="true">
+    <mat-expansion-panel *ngFor="let pr of prs" [class.selected]="pr === selectedPr" (click) = "onSelect(pr)">
+        <mat-expansion-panel-header>
+          <mat-panel-title>{{pr.repository.name}}</mat-panel-title>
+          <mat-panel-description>{{pr.title}}</mat-panel-description>
+        </mat-expansion-panel-header>
+        <mat-list>
+          <mat-list-item><span>Merges from <span class="code">{{pr.headBranch}}</span> into <span class="code">{{pr.baseBranch}}</span></span></mat-list-item>
+          <mat-list-item><span>Commits: {{pr.nrCommits}}</span></mat-list-item>
+          <mat-list-item><span>Files Changed: {{pr.filesChanged}}</span></mat-list-item>
+          <mat-list-item><span>Additions: {{pr.additions}}</span></mat-list-item>
+          <mat-list-item><span>Deletions: {{pr.deletions}}</span></mat-list-item>
+        </mat-list>
+        <mat-divider></mat-divider>
+        <mat-list>
+          <mat-list-item>Approvals: </mat-list-item>
+          <mat-list-item>Changes Requested: </mat-list-item>
+        </mat-list>
+        <mat-action-row>
+          <a mat-raised-button color="primary" href={{pr.url}}>Check on Github</a>
+        </mat-action-row>
+    </mat-expansion-panel>      
+</mat-accordion>
