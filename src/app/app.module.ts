@@ -9,6 +9,7 @@ import { MatListModule } from '@angular/material/list'
 import { MatExpansionModule } from '@angular/material/expansion'
 import { MatButtonModule } from '@angular/material/button'
 import { MatIconModule } from '@angular/material/icon';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { MatIconModule } from '@angular/material/icon';
     MatExpansionModule,
     MatButtonModule,
     MatIconModule,
+    MatToolbarModule,
     // Add imports for Material components, like MatButtonModule, MatCheckboxModule, etc.
   ],
   providers: [],
