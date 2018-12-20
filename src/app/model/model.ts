@@ -16,6 +16,7 @@ export class PullRequest {
     repository: GithubRepository;
     baseBranch: string;
     headBranch: string;
+    createdAt: Date;
     nrCommits: number;
     filesChanged: number;
     additions: number;
@@ -23,4 +24,5 @@ export class PullRequest {
     author: GithubUser;
     approvedReviewers: Array<GithubUser>;
     requestedChangesReviewers: Array<GithubUser>;
+    bodyHTML: string;
 }

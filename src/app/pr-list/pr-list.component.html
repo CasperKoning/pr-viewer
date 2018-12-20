@@ -1,9 +1,13 @@
 <mat-accordion multi="true">
     <mat-expansion-panel *ngFor="let pr of prs" [class.selected]="pr === selectedPr" (click) = "onSelect(pr)">
         <mat-expansion-panel-header>
-          <mat-panel-title>{{pr.repository.name}}</mat-panel-title>
-          <mat-panel-description>{{pr.title}}</mat-panel-description>
+          <mat-panel-title><span><strong>{{pr.repository.name}}</strong> -- {{pr.title}}</span></mat-panel-title>
+          <mat-panel-description>open since {{pr.createdAt}}</mat-panel-description>
         </mat-expansion-panel-header>
+        <mat-list>
+          <mat-list-item><p [innerHTML]=pr.bodyHTML></p></mat-list-item>
+        </mat-list>
+        <mat-divider></mat-divider>
         <mat-list>
           <mat-list-item><span>Merges from <span class="code">{{pr.headBranch}}</span> into <span class="code">{{pr.baseBranch}}</span></span></mat-list-item>
           <mat-list-item><span>Commits: {{pr.nrCommits}}</span></mat-list-item>
@@ -13,8 +17,8 @@
         </mat-list>
         <mat-divider></mat-divider>
         <mat-list>
-          <mat-list-item>Approvals: </mat-list-item>
-          <mat-list-item>Changes Requested: </mat-list-item>
+          <mat-list-item>Approvals: <img class="avatar" *ngFor="let approver of pr.approvedReviewers" src="{{approver.avatarUrl}}"/></mat-list-item>
+          <mat-list-item>Changes Requested: <img class="avatar" *ngFor="let changer of pr.requestedChangesReviewers" src="{{changer.avatarUrl}}"/></mat-list-item>
         </mat-list>
         <mat-action-row>
           <a mat-raised-button color="primary" href={{pr.url}}>Check on Github</a>

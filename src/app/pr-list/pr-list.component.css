@@ -9,3 +9,9 @@
     margin-right: 10px;
     margin-top: 5px;
 }
+
+.avatar {
+    border-radius: 50%;
+    max-width: 25px;
+    margin-left: 5px;
+}
