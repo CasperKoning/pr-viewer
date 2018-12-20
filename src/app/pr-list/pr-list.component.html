@@ -2,7 +2,7 @@
     <mat-expansion-panel *ngFor="let pr of prs" [class.selected]="pr === selectedPr" (click) = "onSelect(pr)">
         <mat-expansion-panel-header>
           <mat-panel-title><span><strong>{{pr.repository.name}}</strong> -- {{pr.title}}</span></mat-panel-title>
-          <mat-panel-description>open since {{pr.createdAt}}</mat-panel-description>
+          <mat-panel-description><span>{{pr.createdAt | amTimeAgo}}</span></mat-panel-description>
         </mat-expansion-panel-header>
         <mat-list>
           <mat-list-item><p [innerHTML]=pr.bodyHTML></p></mat-list-item>
