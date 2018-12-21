@@ -3,7 +3,9 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  githubApiUrl: 'https://my-github-enterprise-url.com/api/graphql',
+  githubApiToken: 'my-github-enterprise-token'
 };
 
 /*

@@ -1,5 +1,5 @@
 <mat-accordion multi="true">
-    <mat-expansion-panel *ngFor="let pr of prs" [class.selected]="pr === selectedPr" (click) = "onSelect(pr)">
+    <mat-expansion-panel *ngFor="let pr of prs">
         <mat-expansion-panel-header>
           <mat-panel-title><span><strong>{{pr.repository.name}}</strong> -- {{pr.title}}</span></mat-panel-title>
           <mat-panel-description><span>{{pr.createdAt | amTimeAgo}}</span></mat-panel-description>

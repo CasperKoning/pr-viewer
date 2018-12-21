@@ -1,4 +1,22 @@
 <mat-toolbar color="primary">
     <span>{{title}}</span>
 </mat-toolbar>
-<app-pr-list></app-pr-list>
+<mat-toolbar>
+    <form [formGroup]="prParametersFormGroup">
+        <table cellspacing="0">
+            <tr>
+                <td>
+                    <mat-form-field #org class="organization-input">
+                        <input matInput placeholder="Organization" formControlName="organization">
+                    </mat-form-field>
+                </td>
+                <td>
+                    <mat-form-field #team class="team-input">
+                        <input matInput placeholder="Team" formControlName="team">
+                    </mat-form-field>
+                </td>
+            </tr>
+        </table>
+    </form>
+</mat-toolbar>
+<app-pr-list [prParametersFormGroup] = prParametersFormGroup></app-pr-list>

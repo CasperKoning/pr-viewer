@@ -8,55 +8,59 @@ import { PullRequest } from '../model/model';
 export class PullRequestService {
   constructor(private http: HttpClient) { }
 
-  getPullRequests(): Observable<Array<PullRequest>> {
-    return this.http.post(this.apiUrl, this.apiRequestBody, this.httpOptions)
+  getPullRequests(apiUrl: string, apiToken: string, organization: string, team: string): Observable<Array<PullRequest>> {
+    const requestBody = this.apiRequestBody(organization, team);
+    console.log(requestBody);
+    return this.http.post(apiUrl, requestBody, this.httpOptions(apiToken))
       .pipe(map(res => this.parsePullRequestsFromApiResponse(res)));
   }
 
-  private apiUrl = "https://internal.git.com/api/graphql";
-
-  private httpOptions =  { 
-    headers: new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',  
-      'Authorization': 'bearer ???'
-    })
+  private httpOptions(apiToken: string) {
+    return { 
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',  
+        'Authorization': `bearer ${apiToken}`
+      })
+    }
   };
 
-  private apiRequestBody = JSON.stringify({ query: `{
-    organization(login: "???") {
-      teams(query: "???", first:1){
-        nodes {
-          members(first:20) {
-            nodes {
-              pullRequests(states: OPEN, first: 20) {
-                nodes {
-                  id,
-                  title,
-                  url,
-                  repository { name },
-                  baseRefName,
-                  headRefName,
-                  author { login, avatarUrl },
-                  createdAt,
-                  bodyHTML,
-                  commits { totalCount },
-                  changedFiles, 
-                  additions,
-                  deletions,
-                  labels(first: 5) {
-                    nodes {
-                      name, color
-                    }
-                  },
-                  approvedReviewers: reviews(states:APPROVED, first:10) {
-                    nodes {
-                      author { login, avatarUrl }
-                    }
-                  },
-                  changesRequestedReviewers: reviews(states:CHANGES_REQUESTED, first:10) {
-                    nodes {
-                      author { login, avatarUrl }
+  private apiRequestBody(organization: string, team: string): string {
+    const query = `{
+      organization(login: "${organization}") {
+        teams(query: "${team}", first:1){
+          nodes {
+            members(first:20) {
+              nodes {
+                pullRequests(states: OPEN, first: 20) {
+                  nodes {
+                    id,
+                    title,
+                    url,
+                    repository { name },
+                    baseRefName,
+                    headRefName,
+                    author { login, avatarUrl },
+                    createdAt,
+                    bodyHTML,
+                    commits { totalCount },
+                    changedFiles, 
+                    additions,
+                    deletions,
+                    labels(first: 5) {
+                      nodes {
+                        name, color
+                      }
+                    },
+                    approvedReviewers: reviews(states:APPROVED, first:10) {
+                      nodes {
+                        author { login, avatarUrl }
+                      }
+                    },
+                    changesRequestedReviewers: reviews(states:CHANGES_REQUESTED, first:10) {
+                      nodes {
+                        author { login, avatarUrl }
+                      }
                     }
                   }
                 }
@@ -65,8 +69,9 @@ export class PullRequestService {
           }
         }
       }
-    }
-  }`});
+    }`
+    return JSON.stringify({ query: query});
+  }
     
   private parsePullRequestsFromApiResponse(apiResponse: Object): Array<PullRequest> {
     const nodePerMember = apiResponse['data']['organization']['teams']['nodes'];
