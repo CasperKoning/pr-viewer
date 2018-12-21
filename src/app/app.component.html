@@ -6,14 +6,22 @@
         <table cellspacing="0">
             <tr>
                 <td>
-                    <mat-form-field #org class="organization-input">
-                        <input matInput placeholder="Organization" formControlName="organization">
+                    <mat-form-field class="organization-input">
+                        <mat-select placeholder="Organization" formControlName="organization">
+                            <mat-option *ngFor="let organization of organizations" [value]="organization">
+                                {{organization}}
+                            </mat-option>
+                        </mat-select>
                     </mat-form-field>
                 </td>
                 <td>
-                    <mat-form-field #team class="team-input">
-                        <input matInput placeholder="Team" formControlName="team">
-                    </mat-form-field>
+                    <mat-form-field class="team-input">
+                        <mat-select placeholder="Team" formControlName="team">
+                            <mat-option *ngFor="let team of teams" [value]="team">
+                                {{team}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>                    
                 </td>
             </tr>
         </table>

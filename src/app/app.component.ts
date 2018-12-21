@@ -1,5 +1,7 @@
 import { Component, OnInit} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { environment } from '../environments/environment';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -7,6 +9,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 })
 export class AppComponent  implements OnInit {
   title = 'pr-viewer';
+
+  organizations = environment.supportedOrganizations;
+  teams = environment.supportedTeams;
 
   prParametersFormGroup: FormGroup;
 

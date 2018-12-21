@@ -16,6 +16,7 @@ import { MomentModule } from 'angular2-moment';
 import { HttpClientModule } from '@angular/common/http';
 import { PullRequestService } from './service/pull-request.service';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatSelectModule } from '@angular/material/select'
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatInputModule,
     MatFormFieldModule,
     ReactiveFormsModule,
+    MatSelectModule,
   ],
   providers: [
     PullRequestService,
