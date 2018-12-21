@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { MockPrs } from '../mock-prs';
 import { PullRequest } from '../model/model';
+import { Injectable } from '@angular/core';
+import { PullRequestService } from '../service/pull-request.service';
 
 @Component({
   selector: 'app-pr-list',
@@ -8,12 +9,15 @@ import { PullRequest } from '../model/model';
   styleUrls: ['./pr-list.component.css']
 })
 export class PrListComponent implements OnInit {
-  prs = MockPrs;
+  prs: Array<PullRequest> = [];
   selectedPr: PullRequest;
-
-  constructor() { }
+  
+  constructor(private pullRequestService: PullRequestService) { }
 
   ngOnInit() {
+    this.pullRequestService
+    .getPullRequests()
+    .subscribe(prs => this.prs = prs);
   }
 
   onSelect(pr: PullRequest): void {

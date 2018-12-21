@@ -11,6 +11,8 @@ import { MatButtonModule } from '@angular/material/button'
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MomentModule } from 'angular2-moment';
+import { HttpClientModule } from '@angular/common/http';
+import { PullRequestService } from './service/pull-request.service';
 
 @NgModule({
   declarations: [
@@ -27,9 +29,13 @@ import { MomentModule } from 'angular2-moment';
     MatIconModule,
     MatToolbarModule,
     MomentModule,
-    // Add imports for Material components, like MatButtonModule, MatCheckboxModule, etc.
+    HttpClientModule,
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [
+    PullRequestService,
+  ],
+  bootstrap: [
+    AppComponent
+  ]
 })
 export class AppModule { }
