@@ -18,11 +18,14 @@ import { PullRequestService } from './service/pull-request.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select'
 import { TeamService } from './service/team.service';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { ThemeSwitcherComponent } from './theme-switcher/theme-switcher.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     PrListComponent,
+    ThemeSwitcherComponent,
   ],
   imports: [
     BrowserModule,
@@ -39,6 +42,7 @@ import { TeamService } from './service/team.service';
     MatFormFieldModule,
     ReactiveFormsModule,
     MatSelectModule,
+    MatSlideToggleModule
   ],
   providers: [
     PullRequestService,
