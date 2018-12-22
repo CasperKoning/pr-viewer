@@ -11,7 +11,13 @@ export class PullRequestService {
   getPullRequests(apiUrl: string, apiToken: string, organization: string, team: string): Observable<Array<PullRequest>> {
     const requestBody = this.apiRequestBody(organization, team);
     return this.http.post(apiUrl, requestBody, this.httpOptions(apiToken))
-      .pipe(map(res => this.parsePullRequestsFromApiResponse(res)));
+      .pipe(map(res => {
+        const prs = this.parsePullRequestsFromApiResponse(res);
+        prs.sort((pr1, pr2) => {
+          return pr1.createdAt > pr2.createdAt ? 1 : pr1.createdAt < pr2.createdAt ? -1 : 0;
+        });
+        return prs;
+      }));
   }
 
   private httpOptions(apiToken: string) {
