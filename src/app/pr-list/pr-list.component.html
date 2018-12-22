@@ -4,9 +4,7 @@
           <mat-panel-title><span><strong>{{pr.repository.name}}</strong> -- {{pr.title}}</span></mat-panel-title>
           <mat-panel-description><span class="fill-space-to-right"></span><span>{{pr.createdAt | amTimeAgo}}</span></mat-panel-description>
         </mat-expansion-panel-header>
-        <mat-list>
-          <mat-list-item><p [innerHTML]=pr.bodyHTML></p></mat-list-item>
-        </mat-list>
+        <p [innerHTML]=pr.bodyHTML></p>
         <mat-divider></mat-divider>
         <mat-list>
           <mat-list-item><span>Merges from <span class="code">{{pr.headBranch}}</span> into <span class="code">{{pr.baseBranch}}</span></span></mat-list-item>
