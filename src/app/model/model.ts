@@ -26,3 +26,8 @@ export class PullRequest {
     requestedChangesReviewers: Array<GithubUser>;
     bodyHTML: string;
 }
+
+export class Team {
+    name: string;
+    slug: string;
+}

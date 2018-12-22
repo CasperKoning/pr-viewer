@@ -17,6 +17,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { PullRequestService } from './service/pull-request.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select'
+import { TeamService } from './service/team.service';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { MatSelectModule } from '@angular/material/select'
   ],
   providers: [
     PullRequestService,
+    TeamService,
   ],
   bootstrap: [
     AppComponent
