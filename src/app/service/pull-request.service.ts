@@ -10,7 +10,6 @@ export class PullRequestService {
 
   getPullRequests(apiUrl: string, apiToken: string, organization: string, team: string): Observable<Array<PullRequest>> {
     const requestBody = this.apiRequestBody(organization, team);
-    console.log(requestBody);
     return this.http.post(apiUrl, requestBody, this.httpOptions(apiToken))
       .pipe(map(res => this.parsePullRequestsFromApiResponse(res)));
   }
