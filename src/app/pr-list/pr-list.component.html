@@ -1,7 +1,7 @@
 <mat-accordion multi="true">
     <mat-expansion-panel *ngFor="let pr of prs">
         <mat-expansion-panel-header>
-          <mat-panel-title><span><strong>{{pr.repository.name}}</strong> -- {{pr.title}}</span></mat-panel-title>
+          <mat-panel-title><span><strong>{{pr.repository.name}}</strong> &mdash; {{pr.title}}</span></mat-panel-title>
           <mat-panel-description>
             <span class="fill-space-to-right"></span>
             <span>{{pr.createdAt | amTimeAgo}}</span>
