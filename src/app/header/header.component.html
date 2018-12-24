@@ -1,9 +1,10 @@
 <mat-toolbar color="primary">
+    <mat-toolbar-row>
     <span>{{title}}</span>
     <span class="fill-space-to-right"></span>
     <app-theme-switcher></app-theme-switcher>
-</mat-toolbar>
-<mat-toolbar>
+  </mat-toolbar-row>
+  <mat-toolbar-row>
     <form [formGroup]="prParametersFormGroup">
         <table cellspacing="0">
             <tr>
@@ -28,4 +29,5 @@
             </tr>
         </table>
     </form>
+  </mat-toolbar-row>
 </mat-toolbar>
