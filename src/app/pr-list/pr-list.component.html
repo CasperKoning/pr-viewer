@@ -2,22 +2,35 @@
     <mat-expansion-panel *ngFor="let pr of prs">
         <mat-expansion-panel-header>
           <mat-panel-title><span><strong>{{pr.repository.name}}</strong> -- {{pr.title}}</span></mat-panel-title>
-          <mat-panel-description><span class="fill-space-to-right"></span><span>{{pr.createdAt | amTimeAgo}}</span></mat-panel-description>
+          <mat-panel-description>
+            <span class="fill-space-to-right"></span>
+            <span>{{pr.createdAt | amTimeAgo}}</span>
+          </mat-panel-description>
         </mat-expansion-panel-header>
-        <p [innerHTML]=pr.bodyHTML></p>
+        <div class="pr-summary">
+          <div class="pr-summary-image">
+              <img class="avatar-author" src="{{pr.author.avatarUrl}}"/>
+          </div>
+          <div class="pr-summary-branches">
+              <span><strong><a href="{{pr.author.url}}">{{pr.author.login}}</a></strong> wants to merge {{pr.nrCommits}} commits into <span class="code">{{pr.baseBranch}}</span> from <span class="code">{{pr.headBranch}}</span></span>
+          </div>
+          <div class="pr-summary-stats">
+              <span>{{pr.filesChanged}} files changed with {{pr.additions}} additions and {{pr.deletions}} deletions</span>
+          </div>
+        </div>
         <mat-divider></mat-divider>
-        <mat-list>
-          <mat-list-item><span>Merges from <span class="code">{{pr.headBranch}}</span> into <span class="code">{{pr.baseBranch}}</span></span></mat-list-item>
-          <mat-list-item><span>Commits: {{pr.nrCommits}}</span></mat-list-item>
-          <mat-list-item><span>Files Changed: {{pr.filesChanged}}</span></mat-list-item>
-          <mat-list-item><span>Additions: {{pr.additions}}</span></mat-list-item>
-          <mat-list-item><span>Deletions: {{pr.deletions}}</span></mat-list-item>
-        </mat-list>
-        <mat-divider></mat-divider>
-        <mat-list>
-          <mat-list-item>Approvals: <img class="avatar" *ngFor="let approver of pr.approvedReviewers" src="{{approver.avatarUrl}}"/></mat-list-item>
-          <mat-list-item>Changes Requested: <img class="avatar" *ngFor="let changer of pr.requestedChangesReviewers" src="{{changer.avatarUrl}}"/></mat-list-item>
-        </mat-list>
+        <div *ngIf="pr.bodyHTML">
+          <p [innerHTML]=pr.bodyHTML></p>
+          <mat-divider></mat-divider>
+        </div>
+        <table>
+          <tr>
+            <td>Approvals:</td><td><img class="avatar" *ngFor="let approver of pr.approvedReviewers" src="{{approver.avatarUrl}}"/></td>
+          </tr>
+          <tr>
+            <td>Changes Requested:</td><td><img class="avatar" *ngFor="let changer of pr.requestedChangesReviewers" src="{{changer.avatarUrl}}"/></td>
+          </tr>
+        </table>
         <mat-action-row>
           <a mat-raised-button color="primary" href={{pr.url}}>Check on Github</a>
         </mat-action-row>

@@ -19,3 +19,30 @@
 .fill-space-to-right {
     flex: 1 1 auto;
 }
+
+.avatar-author {
+    border-radius: 10%;
+    max-width: 50px;
+}
+
+.pr-summary {
+    display: grid;
+    grid-template-columns: 60px auto auto; /* 60px for the first column as it's .avatar-author.max-width (50px) plus some extra white space padding */
+    grid-template-rows: 3;
+    grid-template-areas: 
+    "image branches branches"
+    "image stats stats"
+    "..... stats stats";
+}
+
+.pr-summary-image {
+    grid-area: image;
+}
+
+.pr-summary-branches {
+    grid-area: branches;
+}
+
+.pr-summary-stats {
+    grid-area: stats;
+}
