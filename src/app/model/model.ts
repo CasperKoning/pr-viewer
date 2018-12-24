@@ -31,3 +31,8 @@ export class Team {
     name: string;
     slug: string;
 }
+
+export class PrContext {
+    organization: string;
+    team: string;
+}

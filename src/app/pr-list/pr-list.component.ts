@@ -1,9 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { FormGroup } from '@angular/forms';
-import { PullRequest } from '../model/model';
+import { Component, OnInit, Input, SimpleChanges } from '@angular/core';
+import { PullRequest, PrContext } from '../model/model';
 import { PullRequestService } from '../service/pull-request.service';
 import { environment } from '../../environments/environment';
-import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-pr-list',
@@ -13,20 +11,24 @@ import { debounceTime } from 'rxjs/operators';
 export class PrListComponent implements OnInit {
   prs: Array<PullRequest> = [];
   
-  @Input() prParametersFormGroup: FormGroup;
+  @Input() prContext: PrContext;
 
   constructor(private pullRequestService: PullRequestService) { }
 
   ngOnInit() {
-    this.prParametersFormGroup.valueChanges
-      .pipe(debounceTime(1000)) // Debouncing input to avoid a bunch of requests while typing
-      .subscribe(newVal => {
-        if (!this.prParametersFormGroup.invalid) {
-          this.pullRequestService
-              .getPullRequests(environment.githubApiUrl, environment.githubApiToken, newVal['organization'], newVal['team'])
-              .subscribe(prs => this.prs = prs);
-        }
-      })
+    this.updatePrs();
   }
 
+  ngOnChanges(changes: SimpleChanges) {
+    this.prContext = changes.prContext.currentValue;
+    this.updatePrs();
+  }
+
+  private updatePrs() {
+    if (this.prContext) {
+      this.pullRequestService
+        .getPullRequests(environment.githubApiUrl, environment.githubApiToken, this.prContext.organization, this.prContext.team)
+        .subscribe(prs => this.prs = prs);
+    }
+  }
 }

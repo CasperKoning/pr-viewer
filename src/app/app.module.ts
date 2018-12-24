@@ -20,12 +20,14 @@ import { MatSelectModule } from '@angular/material/select'
 import { TeamService } from './service/team.service';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { ThemeSwitcherComponent } from './theme-switcher/theme-switcher.component';
+import { HeaderComponent } from './header/header.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     PrListComponent,
     ThemeSwitcherComponent,
+    HeaderComponent,
   ],
   imports: [
     BrowserModule,

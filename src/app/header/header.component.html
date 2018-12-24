@@ -1,0 +1,31 @@
+<mat-toolbar color="primary">
+    <span>{{title}}</span>
+    <span class="fill-space-to-right"></span>
+    <app-theme-switcher></app-theme-switcher>
+</mat-toolbar>
+<mat-toolbar>
+    <form [formGroup]="prParametersFormGroup">
+        <table cellspacing="0">
+            <tr>
+                <td>
+                    <mat-form-field class="organization-input">
+                        <mat-select placeholder="Organization" formControlName="organization">
+                            <mat-option *ngFor="let organization of organizations" [value]="organization">
+                                {{organization}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </td>
+                <td>
+                    <mat-form-field *ngIf="lastSelectedOrganization" class="team-input">
+                        <mat-select placeholder="Team" formControlName="team">
+                            <mat-option *ngFor="let team of teams" [value]="team.slug">
+                                {{team.name}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>                    
+                </td>
+            </tr>
+        </table>
+    </form>
+</mat-toolbar>
