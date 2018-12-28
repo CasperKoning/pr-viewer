@@ -21,6 +21,7 @@ import { TeamService } from './service/team.service';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { ThemeSwitcherComponent } from './theme-switcher/theme-switcher.component';
 import { HeaderComponent } from './header/header.component';
+import { PrContextService } from './service/pr-context.service';
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import { HeaderComponent } from './header/header.component';
     MatSlideToggleModule
   ],
   providers: [
+    PrContextService,
     PullRequestService,
     TeamService,
   ],

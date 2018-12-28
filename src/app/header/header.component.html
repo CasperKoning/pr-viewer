@@ -11,16 +11,16 @@
                 <td>
                     <mat-form-field class="organization-input">
                         <mat-select placeholder="Organization" formControlName="organization">
-                            <mat-option *ngFor="let organization of organizations" [value]="organization">
+                            <mat-option *ngFor="let organization of availableOrganizations" [value]="organization">
                                 {{organization}}
                             </mat-option>
                         </mat-select>
                     </mat-form-field>
                 </td>
                 <td>
-                    <mat-form-field *ngIf="lastSelectedOrganization" class="team-input">
+                    <mat-form-field *ngIf="currentPrContext.organization" class="team-input">
                         <mat-select placeholder="Team" formControlName="team">
-                            <mat-option *ngFor="let team of teams" [value]="team.slug">
+                            <mat-option *ngFor="let team of availableTeams" [value]="team.slug">
                                 {{team.name}}
                             </mat-option>
                         </mat-select>

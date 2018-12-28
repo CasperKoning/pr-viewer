@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { environment } from '../../environments/environment';
 import { TeamService } from '../service/team.service';
 import { Team, PrContext } from '../model/model';
+import { PrContextService } from '../service/pr-context.service';
 
 @Component({
   selector: 'app-header',
@@ -12,40 +13,65 @@ import { Team, PrContext } from '../model/model';
 export class HeaderComponent implements OnInit {
 
   title = 'pr-viewer';
-
-  organizations = environment.supportedOrganizations;
-  teams: Array<Team> = [];
-
-  private lastSelectedOrganization;
+  
+  availableOrganizations = environment.supportedOrganizations;
+  availableTeams: Array<Team>
+  
+  previousPrContext: PrContext
+  currentPrContext: PrContext
 
   prParametersFormGroup: FormGroup;
 
   @Output() prContextUpdateEvent = new EventEmitter<PrContext>();
 
-  constructor(private fb: FormBuilder, private teamService: TeamService) { }
+  constructor(private fb: FormBuilder, private teamService: TeamService, private prContextService: PrContextService) { }
 
   ngOnInit() {
-    this.prParametersFormGroup = this.fb.group({
-      organization: ['', Validators.required],
-      team: ['', Validators.required]
-    });
+    this.currentPrContext = this.prContextService.retrievePrContext();
+    if (this.currentPrContext) {
+      this.teamService.getTeams(this.currentPrContext.organization).subscribe(teams => {
+        this.availableTeams = teams;
+      });
+      this.prParametersFormGroup = this.fb.group({
+        organization: [this.currentPrContext.organization ? this.currentPrContext.organization : '', Validators.required],
+        team: [this.currentPrContext.team ? this.currentPrContext.team : '', Validators.required]
+      });
+      if (this.prParametersFormGroup.valid) {
+        this.prContextUpdateEvent.emit(this.currentPrContext);
+      }
+    } else {
+      this.prParametersFormGroup = this.fb.group({
+        organization: ['', Validators.required],
+        team: ['', Validators.required]
+      });
+    }
 
     this.prParametersFormGroup.valueChanges.subscribe(newVal => {
-
-      if (newVal['organization'] != this.lastSelectedOrganization) {
-        this.lastSelectedOrganization = newVal['organization'];
-        this.teamService.getTeams(newVal['organization']).subscribe(teams => {
-          this.teams = teams;
+      this.previousPrContext = this.currentPrContext;
+      if (newVal['organization'] != this.previousPrContext.organization) {
+        const newPrContext = {
+          organization: newVal['organization'],
+          team: null
+        };
+        this.currentPrContext = newPrContext;
+        this.teamService.getTeams(newPrContext.organization).subscribe(teams => {
+          this.availableTeams = teams;
         });
-      }
-
-      if (this.prParametersFormGroup.valid) {
-        this.prContextUpdateEvent.emit({
+        this.prParametersFormGroup.setValue({
+          organization: newPrContext.organization,
+          team: null
+        });
+      } else {
+        const newPrContext = {
           organization: newVal['organization'],
           team: newVal['team']
-        });
+        }
+        this.currentPrContext = newPrContext;
+        if (this.prParametersFormGroup.valid) {
+          this.prContextService.storePrContext(this.currentPrContext);
+          this.prContextUpdateEvent.emit(this.currentPrContext);
+        }
       }
-
     });
   }
 
