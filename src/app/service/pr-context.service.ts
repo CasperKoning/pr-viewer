@@ -1,25 +1,32 @@
 import { Injectable } from '@angular/core';
 import { PrContext } from '../model/model';
+import { Observable, Subject } from 'rxjs';
 
 @Injectable()
 export class PrContextService {
 
   private prContext: PrContext
 
+  private prContextSubject: Subject<PrContext> = new Subject<PrContext>();
+
   constructor() { }
   
-  retrievePrContext(): PrContext {
-    if (this.prContext) {
-      return this.prContext;
-    } else {
+  loadInitialPrContext(): PrContext {
+    if (!this.prContext) {
       const retrievedPrContext = JSON.parse(localStorage.getItem('prContext'));
-      return retrievedPrContext;
+      this.prContext = retrievedPrContext;
     }
+    return this.prContext;
+  }
+
+  observePrContext(): Observable<PrContext> {
+    return this.prContextSubject.asObservable();
   }
 
   storePrContext(prContext: PrContext) {
     this.prContext = prContext;
-    localStorage.setItem('prContext', JSON.stringify(prContext));
+    localStorage.setItem('prContext', JSON.stringify(this.prContext));
+    this.prContextSubject.next(this.prContext);
   }
 
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { environment } from '../../environments/environment';
 import { TeamService } from '../service/team.service';
@@ -22,12 +22,10 @@ export class HeaderComponent implements OnInit {
 
   prParametersFormGroup: FormGroup;
 
-  @Output() prContextUpdateEvent = new EventEmitter<PrContext>();
-
   constructor(private fb: FormBuilder, private teamService: TeamService, private prContextService: PrContextService) { }
 
   ngOnInit() {
-    this.currentPrContext = this.prContextService.retrievePrContext();
+    this.currentPrContext = this.prContextService.loadInitialPrContext();
     if (this.currentPrContext) {
       this.teamService.getTeams(this.currentPrContext.organization).subscribe(teams => {
         this.availableTeams = teams;
@@ -36,9 +34,6 @@ export class HeaderComponent implements OnInit {
         organization: [this.currentPrContext.organization ? this.currentPrContext.organization : '', Validators.required],
         team: [this.currentPrContext.team ? this.currentPrContext.team : '', Validators.required]
       });
-      if (this.prParametersFormGroup.valid) {
-        this.prContextUpdateEvent.emit(this.currentPrContext);
-      }
     } else {
       this.prParametersFormGroup = this.fb.group({
         organization: ['', Validators.required],
@@ -69,7 +64,6 @@ export class HeaderComponent implements OnInit {
         this.currentPrContext = newPrContext;
         if (this.prParametersFormGroup.valid) {
           this.prContextService.storePrContext(this.currentPrContext);
-          this.prContextUpdateEvent.emit(this.currentPrContext);
         }
       }
     });

@@ -1,7 +1,8 @@
-import { Component, OnInit, Input, SimpleChanges } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { PullRequest, PrContext } from '../model/model';
 import { PullRequestService } from '../service/pull-request.service';
 import { environment } from '../../environments/environment';
+import { PrContextService } from '../service/pr-context.service';
 
 @Component({
   selector: 'app-pr-list',
@@ -11,23 +12,19 @@ import { environment } from '../../environments/environment';
 export class PrListComponent implements OnInit {
   prs: Array<PullRequest> = [];
   
-  @Input() prContext: PrContext;
-
-  constructor(private pullRequestService: PullRequestService) { }
+  constructor(private pullRequestService: PullRequestService, private prContextService: PrContextService) { }
 
   ngOnInit() {
-    this.updatePrs();
+    this.updatePrs(this.prContextService.loadInitialPrContext());
+    this.prContextService.observePrContext().subscribe(prContext => {
+      this.updatePrs(prContext);
+    });
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    this.prContext = changes.prContext.currentValue;
-    this.updatePrs();
-  }
-
-  private updatePrs() {
-    if (this.prContext) {
+  private updatePrs(prContext: PrContext) {
+    if (prContext) {
       this.pullRequestService
-        .getPullRequests(environment.githubApiUrl, environment.githubApiToken, this.prContext.organization, this.prContext.team)
+        .getPullRequests(environment.githubApiUrl, environment.githubApiToken, prContext.organization, prContext.team)
         .subscribe(prs => this.prs = prs);
     }
   }
