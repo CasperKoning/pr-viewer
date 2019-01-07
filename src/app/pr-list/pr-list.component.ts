@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PullRequest, PrContext } from '../model/model';
 import { PullRequestService } from '../service/pull-request.service';
-import { environment } from '../../environments/environment';
 import { PrContextService } from '../service/pr-context.service';
 
 @Component({
@@ -24,7 +23,7 @@ export class PrListComponent implements OnInit {
   private updatePrs(prContext: PrContext) {
     if (prContext) {
       this.pullRequestService
-        .getPullRequests(environment.githubApiUrl, environment.githubApiToken, prContext.organization, prContext.team)
+        .getPullRequests(prContext.organization, prContext.team)
         .subscribe(prs => this.prs = prs);
     }
   }

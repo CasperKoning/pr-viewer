@@ -1,18 +1,26 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { PullRequest } from '../model/model';
+import { Apollo } from 'apollo-angular';
+import gql from 'graphql-tag';
 
 @Injectable()
 export class PullRequestService {
-  constructor(private http: HttpClient) { }
+  constructor(private apollo: Apollo) { }
 
-  getPullRequests(apiUrl: string, apiToken: string, organization: string, team: string): Observable<Array<PullRequest>> {
-    const requestBody = this.apiRequestBody(organization, team);
-    return this.http.post(apiUrl, requestBody, this.httpOptions(apiToken))
-      .pipe(map(res => {
-        const prs = this.parsePullRequestsFromApiResponse(res);
+  getPullRequests(organization: string, team: string): Observable<Array<PullRequest>> {
+    return this.apollo
+      .watchQuery({
+        query: this.PrsForTeam,
+        variables: {
+          organization: organization,
+          team: team
+        }
+      })
+      .valueChanges
+      .pipe(map(result => {
+        const prs = this.parsePullRequestsFromQueryResult(result);
         prs.sort((pr1, pr2) => {
           return pr1.createdAt > pr2.createdAt ? 1 : pr1.createdAt < pr2.createdAt ? -1 : 0;
         });
@@ -20,20 +28,10 @@ export class PullRequestService {
       }));
   }
 
-  private httpOptions(apiToken: string) {
-    return { 
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',  
-        'Authorization': `bearer ${apiToken}`
-      })
-    }
-  };
-
-  private apiRequestBody(organization: string, team: string): string {
-    const query = `{
-      organization(login: "${organization}") {
-        teams(query: "${team}", first:1){
+  private PrsForTeam = gql`
+    query PrsForTeam($organization: String!, $team: String!) {
+      organization(login: $organization) {
+        teams(query: $team, first:1){
           nodes {
             members(first:20) {
               nodes {
@@ -73,13 +71,11 @@ export class PullRequestService {
             }
           }
         }
-      }
-    }`
-    return JSON.stringify({ query: query});
-  }
+      }  
+    }`;
     
-  private parsePullRequestsFromApiResponse(apiResponse: Object): Array<PullRequest> {
-    const nodePerMember = apiResponse['data']['organization']['teams']['nodes'];
+  private parsePullRequestsFromQueryResult(queryResult: Object): Array<PullRequest> {
+    const nodePerMember = queryResult['data']['organization']['teams']['nodes'];
     return nodePerMember.flatMap(nodePerMember => {
       const nodePerPullRequests = nodePerMember['members']['nodes']
       return nodePerPullRequests.flatMap(nodePerPullRequest => {
