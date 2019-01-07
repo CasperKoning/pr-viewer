@@ -22,6 +22,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { ThemeSwitcherComponent } from './theme-switcher/theme-switcher.component';
 import { HeaderComponent } from './header/header.component';
 import { PrContextService } from './service/pr-context.service';
+import { GraphQLModule } from './graphql.module';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { PrContextService } from './service/pr-context.service';
     MatFormFieldModule,
     ReactiveFormsModule,
     MatSelectModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    GraphQLModule
   ],
   providers: [
     PrContextService,
