@@ -26,6 +26,15 @@
                         </mat-select>
                     </mat-form-field>                    
                 </td>
+                <td>
+                    <mat-form-field *ngIf="currentPrContext.team" class="users-input">
+                        <mat-select placeholder="Users" formControlName="users">
+                            <mat-option *ngFor="let user of availableUsers" [value]="user.login">
+                                {{user.login}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </td>
             </tr>
         </table>
     </form>

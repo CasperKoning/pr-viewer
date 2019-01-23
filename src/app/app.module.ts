@@ -23,6 +23,7 @@ import { ThemeSwitcherComponent } from './theme-switcher/theme-switcher.componen
 import { HeaderComponent } from './header/header.component';
 import { PrContextService } from './service/pr-context.service';
 import { GraphQLModule } from './graphql.module';
+import { UserService } from './service/user.service';
 
 @NgModule({
   declarations: [
@@ -53,6 +54,7 @@ import { GraphQLModule } from './graphql.module';
     PrContextService,
     PullRequestService,
     TeamService,
+    UserService,
   ],
   bootstrap: [
     AppComponent

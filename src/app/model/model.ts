@@ -35,4 +35,5 @@ export class Team {
 export class PrContext {
     organization: string;
     team: string;
+    users: Array<string>;
 }
