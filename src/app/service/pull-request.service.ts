@@ -16,7 +16,8 @@ export class PullRequestService {
         variables: {
           organization: organization,
           team: team
-        }
+        },
+        pollInterval: 20000,
       })
       .valueChanges
       .pipe(map(result => {
