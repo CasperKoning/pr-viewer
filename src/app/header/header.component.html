@@ -28,7 +28,7 @@
                 </td>
                 <td>
                     <mat-form-field *ngIf="currentPrContext.team" class="users-input">
-                        <mat-select placeholder="Users" formControlName="users">
+                        <mat-select placeholder="Users" formControlName="users" multiple>
                             <mat-option *ngFor="let user of availableUsers" [value]="user.login">
                                 {{user.login}}
                             </mat-option>
