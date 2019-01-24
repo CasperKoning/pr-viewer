@@ -13,7 +13,8 @@ export class PrContextService {
   
   loadInitialPrContext(): PrContext {
     if (!this.prContext) {
-      const retrievedPrContext = JSON.parse(localStorage.getItem('prContext'));
+      const storedContext = localStorage.getItem('prContext');
+      const retrievedPrContext = storedContext ? JSON.parse(storedContext) : { organization: null, team: null, users: null };
       this.prContext = retrievedPrContext;
     }
     return this.prContext;

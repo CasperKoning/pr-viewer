@@ -14,14 +14,17 @@ export class PrListComponent implements OnInit {
   constructor(private pullRequestService: PullRequestService, private prContextService: PrContextService) { }
 
   ngOnInit() {
-    this.updatePrs(this.prContextService.loadInitialPrContext());
+    const initialContext = this.prContextService.loadInitialPrContext();
+    if (initialContext) { 
+      this.updatePrs(initialContext);
+    }
     this.prContextService.observePrContext().subscribe(prContext => {
       this.updatePrs(prContext);
     });
   }
 
   private updatePrs(prContext: PrContext) {
-    if (prContext) {
+    if (prContext && prContext.organization && prContext.team && prContext.users) {
       this.pullRequestService
         .getPullRequests(prContext.organization, prContext.team, prContext.users)
         .subscribe(prs => this.prs = prs);
