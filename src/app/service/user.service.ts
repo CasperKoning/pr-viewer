@@ -40,13 +40,13 @@ export class UserService {
     }
   `
     
-  private parseUsersFromQueryResult(apiResponse: Object): Array<GithubUser> {
-    const nodePerMember = apiResponse['data']['organization']['teams']['nodes'][0]['members']['nodes'];
+  private parseUsersFromQueryResult(apiResponse: any): Array<GithubUser> {
+    const nodePerMember = apiResponse.data.organization.teams.nodes[0].members.nodes;
     return nodePerMember.flatMap(member => {
       return {
-        login: member['login'],
-        avatarUrl: member['avatarUrl'],
-        url: member['url'],
+        login: member.login,
+        avatarUrl: member.avatarUrl,
+        url: member.url,
       }
     });
   }

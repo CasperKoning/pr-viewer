@@ -76,32 +76,32 @@ export class PullRequestService {
       }  
     }`;
     
-  private parsePullRequestsFromQueryResult(queryResult: Object): Array<PullRequest> {
-    const nodePerMember = queryResult['data']['organization']['teams']['nodes'];
+  private parsePullRequestsFromQueryResult(queryResult: any): Array<PullRequest> {
+    const nodePerMember = queryResult.data.organization.teams.nodes;
     return nodePerMember.flatMap(nodePerMember => {
-      const nodePerPullRequests = nodePerMember['members']['nodes']
+      const nodePerPullRequests = nodePerMember.members.nodes;
       return nodePerPullRequests.flatMap(nodePerPullRequest => {
-        return nodePerPullRequest['pullRequests']['nodes'].map(pr => {
+        return nodePerPullRequest.pullRequests.nodes.map(pr => {
           return {
-            id: pr['id'],
-            title: pr['title'],
-            url: pr['url'],
-            repository: { name: pr['repository']['name'], url: pr['repository']['url']},
-            baseBranch: pr['baseRefName'],
-            headBranch: pr['headRefName'],
-            createdAt: pr['createdAt'],
-            nrCommits: pr['commits']['totalCount'],
-            filesChanged: pr['changedFiles'],
-            additions: pr['additions'],
-            deletions: pr['deletions'],
-            author: { login: pr['author']['login'], avatarUrl: pr['author']['avatarUrl'], url: pr['author']['url'] },
-            approvedReviewers: pr['approvedReviewers']['nodes'].map(n => {
-                return { login: n['author']['login'], avatarUrl: n['author']['avatarUrl']}
+            id: pr.id,
+            title: pr.title,
+            url: pr.url,
+            repository: { name: pr.repository.name, url: pr.repository.url },
+            baseBranch: pr.baseRefName,
+            headBranch: pr.headRefName,
+            createdAt: pr.createdAt,
+            nrCommits: pr.commits.totalCount,
+            filesChanged: pr.changedFiles,
+            additions: pr.additions,
+            deletions: pr.deletions,
+            author: { login: pr.author.login, avatarUrl: pr.author.avatarUrl, url: pr.author.url },
+            approvedReviewers: pr.approvedReviewers.nodes.map(n => {
+                return { login: n.author.login, avatarUrl: n.author.avatarUrl }
             }),
-            requestedChangesReviewers: pr['changesRequestedReviewers']['nodes'].map(n => {
-                return { login: n['author']['login'], avatarUrl: n['author']['avatarUrl']}
+            requestedChangesReviewers: pr.changesRequestedReviewers.nodes.map(n => {
+                return { login: n.author.login, avatarUrl: n.author.avatarUrl }
             }),
-            bodyHTML: pr['bodyHTML']
+            bodyHTML: pr.bodyHTML
           }
         })
       });

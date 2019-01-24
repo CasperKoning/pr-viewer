@@ -34,12 +34,12 @@ export class TeamService {
     }
   `
     
-  private parseTeamsFromQueryResult(apiResponse: Object): Array<Team> {
-    const nodePerMember = apiResponse['data']['organization']['teams']['nodes'];
+  private parseTeamsFromQueryResult(apiResponse: any): Array<Team> {
+    const nodePerMember = apiResponse.data.organization.teams.nodes;
     return nodePerMember.flatMap(member => {
       return {
-        name: member['name'],
-        slug: member['slug']
+        name: member.name,
+        slug: member.slug,
       }
     });
   }

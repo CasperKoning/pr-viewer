@@ -5,6 +5,7 @@ import { TeamService } from '../service/team.service';
 import { UserService } from '../service/user.service';
 import { Team, PrContext, GithubUser } from '../model/model';
 import { PrContextService } from '../service/pr-context.service';
+import { OrganizationService } from '../service/organization.service';
 
 @Component({
   selector: 'app-header',
@@ -15,7 +16,7 @@ export class HeaderComponent implements OnInit {
 
   title = 'pr-viewer';
   
-  availableOrganizations = environment.supportedOrganizations;
+  availableOrganizations: Array<String>
   availableTeams: Array<Team>
   availableUsers: Array<GithubUser>
   
@@ -24,10 +25,13 @@ export class HeaderComponent implements OnInit {
 
   prParametersFormGroup: FormGroup;
 
-  constructor(private fb: FormBuilder, private teamService: TeamService, private userService: UserService, private prContextService: PrContextService) { }
+  constructor(private fb: FormBuilder, private organizationService: OrganizationService, private teamService: TeamService, private userService: UserService, private prContextService: PrContextService) { }
 
   ngOnInit() {
     this.currentPrContext = this.prContextService.loadInitialPrContext();
+    this.organizationService.getOrganizations().subscribe(organizations => {
+        this.availableOrganizations = organizations;
+    });
     if (this.currentPrContext.organization) {
       this.teamService.getTeams(this.currentPrContext.organization).subscribe(teams => {
         this.availableTeams = teams;

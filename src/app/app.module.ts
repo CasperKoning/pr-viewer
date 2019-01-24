@@ -24,6 +24,7 @@ import { HeaderComponent } from './header/header.component';
 import { PrContextService } from './service/pr-context.service';
 import { GraphQLModule } from './graphql.module';
 import { UserService } from './service/user.service';
+import { OrganizationService } from './service/organization.service';
 
 @NgModule({
   declarations: [
@@ -55,6 +56,7 @@ import { UserService } from './service/user.service';
     PullRequestService,
     TeamService,
     UserService,
+    OrganizationService,
   ],
   bootstrap: [
     AppComponent
