@@ -75,11 +75,11 @@ export class HeaderComponent implements OnInit {
         this.currentPrContext = newPrContext;
         this.userService.getUsers(newPrContext.organization, newPrContext.team).subscribe(users => {
           this.availableUsers = users;
-        });
-        this.prParametersFormGroup.setValue({
-          organization: newPrContext.organization,
-          team: newPrContext.team,
-          users: newPrContext.users,
+          this.prParametersFormGroup.setValue({
+            organization: newPrContext.organization,
+            team: newPrContext.team,
+            users: this.availableUsers.map(u => u.login), // Select all users as default selection
+          });
         });
       } else {
         const newPrContext = {
