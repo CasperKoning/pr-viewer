@@ -64,7 +64,8 @@ export class HeaderComponent implements OnInit {
         });
         this.prParametersFormGroup.setValue({
           organization: newPrContext.organization,
-          team: null
+          team: null,
+          users: null,
         });
       } else if (newVal['team'] != this.previousPrContext.team) {
         const newPrContext = {
