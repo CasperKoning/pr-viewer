@@ -23,7 +23,7 @@ export class PrListComponent implements OnInit {
   private updatePrs(prContext: PrContext) {
     if (prContext) {
       this.pullRequestService
-        .getPullRequests(prContext.organization, prContext.team)
+        .getPullRequests(prContext.organization, prContext.team, prContext.users)
         .subscribe(prs => this.prs = prs);
     }
   }

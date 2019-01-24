@@ -9,7 +9,7 @@ import gql from 'graphql-tag';
 export class PullRequestService {
   constructor(private apollo: Apollo) { }
 
-  getPullRequests(organization: string, team: string): Observable<Array<PullRequest>> {
+  getPullRequests(organization: string, team: string, users: Array<string>): Observable<Array<PullRequest>> {
     return this.apollo
       .watchQuery({
         query: this.PrsForTeam,
@@ -21,10 +21,11 @@ export class PullRequestService {
       })
       .valueChanges
       .pipe(map(result => {
-        const prs = this.parsePullRequestsFromQueryResult(result);
-        prs.sort((pr1, pr2) => {
-          return pr1.createdAt > pr2.createdAt ? 1 : pr1.createdAt < pr2.createdAt ? -1 : 0;
-        });
+        const prs = this.parsePullRequestsFromQueryResult(result)
+          .filter(pr => users.includes(pr.author.login))
+          .sort((pr1, pr2) => {
+            return pr1.createdAt > pr2.createdAt ? 1 : pr1.createdAt < pr2.createdAt ? -1 : 0;
+          });
         return prs;
       }));
   }
